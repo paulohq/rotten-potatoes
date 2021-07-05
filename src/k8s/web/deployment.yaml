@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: movies
+spec:
+  replicas: 3
+  selector: #especificação da aplicação.
+    matchLabels:
+      app: movies
+  template: #especificação do meu POD.
+    metadata:
+      labels:
+        app: movies
+    spec:
+      containers:
+        - name: movies
+          image: paulohqs/rotten-potatoes:v2
+          ports:
+            - containerPort: 5000 # a mesma que exponho na imagem Dockerfile.
+          env: # variáveis que estão no código da aplicação.
+            - name: MONGODB_DB
+              value: admin
+            - name: MONGODB_HOST # mesmo nome do service arquivo service.yaml.
+              value: mongo-service
+            - name: MONGODB_PORT #mesmo do arquivo service.yaml.
+              value: "27017"
+            - name: MONGODB_USER #mesmo do arquivo deployment.yaml do mongodb.
+              value: mongouser
+            - name: MONGODB_PASSWORD #mesmo do arquivo deployment.yaml do mongodb.
+              value: mongopwd
+

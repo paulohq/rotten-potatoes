@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: movies-service
+spec:
+  selector:
+    app: movies # nome da minha aplicação.
+  ports:
+  - port: 80 #como é aplicação web uso a porta padrão para o serviço http.
+    targetPort: 5000 #como a porta do container é 5000 então coloco o targetPort: 5000. Chega na porta 80 (máquina) e redireciona para 5000 (container).
+    nodePort: 30000 #Como uso service do tipo NodePort (porta 30000 especificada na criação do cluster k3d) então precisa colocar o NodePort aqui.
+  type: NodePort
